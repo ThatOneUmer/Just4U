@@ -1,0 +1,23 @@
+# wasmer.yaml - Configuration for Wasmer deployment
+
+package:
+  name: "your-app-name/just4u-gaming" # Isko apne hisaab se badal sakte hain
+  version: "1.0.0"
+  description: "Just4U Gaming Store PHP Application"
+  
+command:
+  name: "start"
+  module: "php_server" # Module ka naam kuch bhi rakh sakte hain
+  runner: "wasi" # Ya 'wasi' ya 'wasi-php'
+  args: ["-S", "0.0.0.0:8000"] # PHP built-in web server command
+  
+modules:
+  - name: "php_server"
+    source: "index.php" # Application ki starting file
+    
+filesystem:
+  /var/www/html: . # Repository ki root ko web server root par map karna
+  
+bindings:
+  # Agar aapko Environment Variables ki zaroorat hai (jo aapko hai)
+  - env: [DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT]
