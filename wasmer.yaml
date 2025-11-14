@@ -1,23 +1,19 @@
 # wasmer.yaml - Configuration for Wasmer deployment
 
 package:
-  name: "your-app-name/just4u-gaming" # Isko apne hisaab se badal sakte hain
+  name: "your-app-name/just4u-gaming"
   version: "1.0.0"
   description: "Just4U Gaming Store PHP Application"
   
-command:
-  name: "start"
-  module: "php_server" # Module ka naam kuch bhi rakh sakte hain
-  runner: "wasi" # Ya 'wasi' ya 'wasi-php'
-  args: ["-S", "0.0.0.0:8000"] # PHP built-in web server command
-  
-modules:
-  - name: "php_server"
-    source: "index.php" # Application ki starting file
-    
-filesystem:
+entrypoint: "index.php" # Application ki starting file
+runner: "wasmer/php@latest" # Official PHP WASM runner use karein
+# Note: Agar aapka PHP runtime built-in server start karta hai, toh yeh theek hai
+
+# Filesystem section ko verify karein ki saari zaroori files aur folders map ho rahe hain
+# (Aapke file structure ke mutabiq)
+fs:
   /var/www/html: . # Repository ki root ko web server root par map karna
-  
+
 bindings:
-  # Agar aapko Environment Variables ki zaroorat hai (jo aapko hai)
+  # Environment Variables
   - env: [DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT]
